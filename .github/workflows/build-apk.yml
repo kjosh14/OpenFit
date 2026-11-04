@@ -5,6 +5,9 @@ on: [push, workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gymapp
     steps:
       - name: Get the code
         uses: actions/checkout@v4
@@ -34,7 +37,7 @@ jobs:
         run: npx cap sync android
 
       - name: Build the APK
-        working-directory: android
+        working-directory: gymapp/android
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug
@@ -43,4 +46,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: OpenFit-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+        path: gymapp/android/app/build/outputs/apk/debug/app-debug.apk
